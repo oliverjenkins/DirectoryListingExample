@@ -2,5 +2,23 @@ extends ../layouts/default
 
 block content
 	.container: .jumbotron
-		img(src='/images/logo.svg', width='160')
 		h1 Welcome
+
+		p This is a very simple proof of concept.  To test how a user can be authenticated through keystonejs and then subscribe to additional features through Paypal subscription API.
+
+		p Anybody may view the listings in the&nbsp;
+			a(href='/directory') directory&nbsp;
+			| but only those who have subscribed through Paypal may&nbsp;
+			a(href='/directory/new-listing') post new
+			|&nbsp;listings
+
+		p To test you will need a&nbsp;
+			a(href='https://developer.paypal.com/webapps/developer/applications/accounts') Paypal Sandbox account
+			|&nbsp;as the app does not deal with real money
+
+		p Full source can be found on&nbsp;
+			a(href='https://github.com/oliverjenkins/DirectoryListingExample') Github.&nbsp;
+			| It was written in five hours, with an hour to get Heroku set up.
+
+		p This is based on a post I saw on&nbsp;
+			a(href='https://www.reddit.com/r/node/comments/2x72yt/i_need_to_learn_node_and_build_this_in_6_weeks/coxn9kc') reddit/r/node
