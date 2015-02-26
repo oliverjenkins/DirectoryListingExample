@@ -31,15 +31,11 @@ exports = module.exports = function(req, res) {
 
 		var q = keystone.list('Listing').paginate();
 		if (locals.filters.category) {
-			console.log('adding category filter');
-
-			q.where('categories').in([locals.data.category])
-
+			q.where('categories').in([locals.data.category]);
 		}
 		q.where('state', 'published').sort('-publishedDate').populate('author').limit('4');
 
 		q.exec(function(err, results) {
-			console.log(err,results);
 			locals.data.listings = results;
 			next(err);
 		});

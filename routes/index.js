@@ -38,6 +38,11 @@ exports = module.exports = function(app) {
 	app.get('/', routes.views.index);
 	app.get('/directory/:category?', routes.views.directory);
 	app.get('/directory/listing/:listing', routes.views.listing);
+
+	app.all('/account', middleware.requireUser,routes.views.account.home);
+	app.all('/account/signin', routes.views.account.signin);
+	app.get('/account/signout', routes.views.account.signout);
+
 	app.all('/contact', routes.views.contact);
 
 	// NOTE: To protect a route so that only admins can see it, use the requireUser middleware:
