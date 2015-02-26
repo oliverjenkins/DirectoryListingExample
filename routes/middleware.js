@@ -68,5 +68,13 @@ exports.requireUser = function(req, res, next) {
 	} else {
 		next();
 	}
-
 };
+
+exports.requireSubscription = function(req,res,next) {
+	if (req.user && req.user.hasSubscription) {
+		next();
+	} else {
+		req.flash('error', 'You need to have a subscription to do this.');
+		res.redirect('/account');
+	}
+}

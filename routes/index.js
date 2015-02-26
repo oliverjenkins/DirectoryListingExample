@@ -36,8 +36,10 @@ exports = module.exports = function(app) {
 
 	// Views
 	app.get('/', routes.views.index);
+	app.all('/directory/new-listing', middleware.requireSubscription, routes.views.newListing);
 	app.get('/directory/:category?', routes.views.directory);
 	app.get('/directory/listing/:listing', routes.views.listing);
+
 
 	app.all('/account', middleware.requireUser,routes.views.account.home);
 	app.all('/account/signin', routes.views.account.signin);

@@ -17,6 +17,8 @@ exports = module.exports = function(req, res) {
 			req.flash('error', 'You are already signed in.');
 			res.redirect('/account');
 			hasRedirected = true;
+		} else {
+			next();
 		}
 	});
 
