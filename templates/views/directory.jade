@@ -1,0 +1,75 @@
+extends ../layouts/default
+
+mixin listing(listing)
+	.listing
+		h2: a(href='/directory/listing/' + listing.slug)= listing.title
+		p.lead.text-muted listinged
+			if listing.publishedDate
+				| on #{listing._.publishedDate.format('MMMM Do, YYYY')}
+			if listing.categories && listing.categories.length
+				| in
+				each cat, i in listing.categories
+					a(href='/directory/' + cat.key)= cat.name
+					if i < listing.categories.length - 1
+						| ,
+					else
+						| &nbsp;
+			if listing.author
+				| by #{listing.author.name.first}
+		if listing.image.exists
+			img(src=listing._.image.fit(160,160)).img.pull-right
+		p!= listing.content.brief
+		if listing.content.extended
+			p.read-more: a(href='/directory/listing/' + listing.slug) Read more...
+
+block intro
+	.container
+		h1= data.category ? data.category.name : 'Directory'
+
+block content
+	.container: .row
+		.col-sm-8.col-md-9
+			if filters.category && !data.category
+				h3.text-muted Invalid Category.
+			else
+				if data.listings.results && data.listings.results.length
+					if data.listings.totalPages > 1
+						h4.text-weight-normal Showing
+							strong #{data.listings.first}
+							|  to
+							strong #{data.listings.last}
+							|  of
+							strong #{data.listings.total}
+							|  listings.
+					else
+						h4.text-weight-normal Showing #{utils.plural(data.listings.results.length, '* listing')}.
+					.directory
+						each listing in data.listings.results
+							+listing(listing)
+
+					if data.listings.totalPages > 1
+						ul.pagination
+							if data.listings.previous
+								li: a(href='?page=' + data.listings.previous): span.glyphicon.glyphicon-chevron-left
+							else
+								li.disabled: a(href='?page=' + 1): span.glyphicon.glyphicon-chevron-left
+							each p, i in data.listings.pages
+								li(class=data.listings.currentPage == p ? 'active' : null)
+									a(href='?page=' + (p == '...' ? (i ? data.listings.totalPages : 1) : p ))= p
+							if data.listings.next
+								li: a(href='?page=' + data.listings.next): span.glyphicon.glyphicon-chevron-right
+							else
+								li.disabled: a(href='?page=' + data.listings.totalPages): span.entypo.glyphicon.glyphicon-chevron-right
+				else
+					if data.category
+						h3.text-muted There are no listings in the category #{data.category.name}.
+					else
+						h3.text-muted There are no listings yet.
+
+		if data.categories && data.categories.length
+			.col-sm-4.col-md-3
+				h2 Categories
+				.list-group(style='margin-top: 70px;')
+					a(href='/directory', class=!data.category ? 'active' : false).list-group-item All Categories
+					each cat in data.categories
+						a(href='/directory/' + cat.key, class=data.category && data.category.id == cat.id ? 'active' : false).list-group-item= cat.name

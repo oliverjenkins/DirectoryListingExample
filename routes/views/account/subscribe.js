@@ -1,6 +1,6 @@
 var keystone = require('keystone'),
-	 Paypal = require('paypal-recurring'),
-	 User = keystone.list('User');
+	Paypal = require('paypal-recurring'),
+	User = keystone.list('User');
 
 exports = module.exports = function(req, res) {
 
@@ -35,10 +35,28 @@ exports = module.exports = function(req, res) {
 					},
 					{ new: true },
 					function(err,updatedUser) {
-						console.log('updatedUser', updatedUser);
-						req.user = updatedUser;
-						res.redirect('/account');
-						hasRedirected = true;
+						if (updatedUser) {
+							// Now we create a subscription
+							paypal.createSubscription(req.query.token,req.query.PayerID,{
+								AMT:              process.env.PAYPAL_AMOUNT,
+								DESC:             process.env.PAYPAL_MESSAGE,
+								BILLINGPERIOD:    "Month",
+								BILLINGFREQUENCY: 1,
+							}, function(err, data) {
+								if (!err) {
+									req.user = updatedUser;
+								} else {
+									req.flash('error','An error has occurred', err);
+								}
+								res.redirect('/account');
+								hasRedirected = true;
+							});
+
+						} else {
+							req.flash('error', "Could not find this user");
+							res.redirect('/account');
+							hasRedirected = true;
+						}
 					});
 			} else {
 				next();
@@ -67,7 +85,7 @@ exports = module.exports = function(req, res) {
 						} else {
 							req.flash('error', err);
 						}
-					})
+					});
 				}
 			});
 		}

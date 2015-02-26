@@ -11,7 +11,7 @@ exports = module.exports = function(req, res) {
 		listing: req.params.listing
 	};
 	locals.data = {
-		listings: []
+		listing: {}
 	};
 
 	// Load the current listing
@@ -23,21 +23,15 @@ exports = module.exports = function(req, res) {
 		}).populate('author categories');
 
 		q.exec(function(err, result) {
+
 			locals.data.listing = result;
+			if (result && result.author.password) {
+				console.log(result);
+				locals.data.listing.author.password = '******';
+			}
 			next(err);
 		});
 
-	});
-
-	// Load directory listings
-	view.on('init', function(next) {
-
-		var q = keystone.list('Listing').paginate().where('state', 'published').sort('-publishedDate').populate('author').limit('4');
-
-		q.exec(function(err, results) {
-			locals.data.listings = results || [];
-			next(err);
-		});
 	});
 
 	// Render the view

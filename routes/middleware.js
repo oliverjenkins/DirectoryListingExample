@@ -77,4 +77,4 @@ exports.requireSubscription = function(req,res,next) {
 		req.flash('error', 'You need to have a subscription to do this.');
 		res.redirect('/account');
 	}
-}
+};
