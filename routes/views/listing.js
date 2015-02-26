@@ -11,7 +11,7 @@ exports = module.exports = function(req, res) {
 		listing: req.params.listing
 	};
 	locals.data = {
-		posts: []
+		listings: []
 	};
 
 	// Load the current post
@@ -19,7 +19,7 @@ exports = module.exports = function(req, res) {
 
 		var q = keystone.list('Listing').model.findOne({
 			state: 'published',
-			slug: locals.filters.post
+			slug: locals.filters.listing
 		}).populate('author categories');
 
 		q.exec(function(err, result) {
@@ -32,9 +32,10 @@ exports = module.exports = function(req, res) {
 	// Load other listings
 	view.on('init', function(next) {
 
-		var q = keystone.list('Listing').model.find().where('state', 'published').sort('-publishedDate').populate('author').limit('4');
+		var q = keystone.list('Listing').paginate().where('state', 'published').sort('-publishedDate').populate('author').limit('4');
 
 		q.exec(function(err, results) {
+			console.log(results);
 			locals.data.listings = results;
 			next(err);
 		});
