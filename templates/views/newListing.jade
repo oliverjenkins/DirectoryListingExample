@@ -13,5 +13,8 @@ block content
 					label Name
 					input(type='text', name='title', value=formData['title']).form-control
 
+				textarea(name='content.brief').form-control
+					!= (formData.content)?formData.content.brief:''
+
 				.form-actions
 					button(type='submit').btn.btn-primary Create

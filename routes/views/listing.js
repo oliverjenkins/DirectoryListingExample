@@ -26,7 +26,6 @@ exports = module.exports = function(req, res) {
 
 			locals.data.listing = result;
 			if (result && result.author.password) {
-				console.log(result);
 				locals.data.listing.author.password = '******';
 			}
 			next(err);
