@@ -15,6 +15,9 @@ User.add({
 }, 'Permissions', {
 	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true, default: false },
 	hasSubscription: { type: Boolean, label: 'Has Valid Subscription', default: false }
+}, 'Paypal', {
+	token: { type: String, index: true },
+	payerID: { type: String }
 });
 
 // Provide access to Keystone

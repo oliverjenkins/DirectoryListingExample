@@ -12,6 +12,14 @@ exports = module.exports = function(req, res) {
 	locals.formData = req.body || {};
 	locals.validationErrors = {};
 
+	view.on('init', function(next) {
+		if (req.user) {
+			req.flash('error', 'You are already signed in.');
+			res.redirect('/account');
+			hasRedirected = true;
+		}
+	});
+
 	// On POST requests, try to sign in the user
 	view.on('post', { action: 'signin' }, function(next) {
 		if (!req.body.email || !req.body.password) {

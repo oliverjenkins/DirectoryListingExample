@@ -42,6 +42,7 @@ exports = module.exports = function(app) {
 	app.all('/account', middleware.requireUser,routes.views.account.home);
 	app.all('/account/signin', routes.views.account.signin);
 	app.get('/account/signout', routes.views.account.signout);
+	app.all('/account/subscribe/:method?', routes.views.account.subscribe);
 
 	app.all('/contact', routes.views.contact);
 
