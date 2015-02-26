@@ -6,7 +6,7 @@ exports = module.exports = function(req, res) {
 		locals = res.locals;
 
 	// Set locals
-	locals.section = 'listings';
+	locals.section = 'directory';
 	locals.filters = {
 		listing: req.params.listing
 	};
@@ -14,7 +14,7 @@ exports = module.exports = function(req, res) {
 		listings: []
 	};
 
-	// Load the current post
+	// Load the current listing
 	view.on('init', function(next) {
 
 		var q = keystone.list('Listing').model.findOne({
@@ -29,17 +29,15 @@ exports = module.exports = function(req, res) {
 
 	});
 
-	// Load other listings
+	// Load directory listings
 	view.on('init', function(next) {
 
 		var q = keystone.list('Listing').paginate().where('state', 'published').sort('-publishedDate').populate('author').limit('4');
 
 		q.exec(function(err, results) {
-			console.log(results);
-			locals.data.listings = results;
+			locals.data.listings = results || [];
 			next(err);
 		});
-
 	});
 
 	// Render the view

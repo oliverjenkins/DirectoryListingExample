@@ -1,7 +1,7 @@
 extends ../layouts/default
 
 mixin listing(listing)
-	.listing(data-ks-editable=editable(user, { list: 'listing', id: listing.id }))
+	.listing
 		h2: a(href='/directory/listing/' + listing.slug)= listing.title
 		p.lead.text-muted listinged
 			if listing.publishedDate
