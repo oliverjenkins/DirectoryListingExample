@@ -26,7 +26,8 @@ keystone.init({
 	'session': true,
 	'auth': true,
 	'user model': 'User',
-	'cookie secret': '#[!B@BClHmd)C6v/==?g=U$phOqLlcmN(Pf{]:q&ogZP$g7H^+x>%[r<rgZ|l>78'
+	'cookie secret': '#[!B@BClHmd)C6v/==?g=U$phOqLlcmN(Pf{]:q&ogZP$g7H^+x>%[r<rgZ|l>78',
+	'mongo':  process.env.MONGODB_URL || 'mongodb://localhost/directorylistingexample',
 
 });
 
