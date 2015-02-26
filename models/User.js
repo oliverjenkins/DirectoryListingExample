@@ -13,8 +13,8 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, index: true },
 	password: { type: Types.Password, initial: true, required: true }
 }, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
-	hasSubscription: { type: Boolean, label: 'Has Valid Subscription' }
+	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true, default: false },
+	hasSubscription: { type: Boolean, label: 'Has Valid Subscription', default: false }
 });
 
 // Provide access to Keystone
