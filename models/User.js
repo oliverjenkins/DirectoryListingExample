@@ -13,7 +13,8 @@ User.add({
 	email: { type: Types.Email, initial: true, required: true, index: true },
 	password: { type: Types.Password, initial: true, required: true }
 }, 'Permissions', {
-	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true }
+	isAdmin: { type: Boolean, label: 'Can access Keystone', index: true },
+	hasSubscription: { type: Boolean, label: 'Has Valid Subscription' }
 });
 
 // Provide access to Keystone
@@ -26,7 +27,7 @@ User.schema.virtual('canAccessKeystone').get(function() {
  * Relationships
  */
 
-User.relationship({ ref: 'Post', path: 'posts', refPath: 'author' });
+User.relationship({ ref: 'Listing', path: 'posts', refPath: 'author' });
 
 
 /**
